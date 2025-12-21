@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modern Tic-Tac-Toe</title>
+    <link rel="stylesheet" href="tic-tac-toe.css">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <div class="background-globes">
+        <div class="globe globe-1"></div>
+        <div class="globe globe-2"></div>
+        <div class="globe globe-3"></div>
+    </div>
+
+    <main class="glass-container">
+        <!-- Start Screen -->
+        <section id="start-screen" class="screen active">
+            <h1 class="game-title">TIC <span class="highlight">TAC</span> TOE</h1>
+            <div class="menu-buttons">
+                <button class="btn primary" onclick="game.selectMode('pvp')">
+                    <span class="icon">👥</span> Player vs Player
+                </button>
+                <button class="btn secondary" onclick="game.selectMode('pvc')">
+                    <span class="icon">🤖</span> Player vs Computer
+                </button>
+            </div>
+        </section>
+
+        <!-- Difficulty Screen -->
+        <section id="difficulty-screen" class="screen hidden">
+            <h2>Select Difficulty</h2>
+            <div class="difficulty-options">
+                <button class="btn difficulty-btn easy" onclick="game.startGame('easy')">
+                    <span class="level">Easy</span>
+                    <span class="sub">Chill</span>
+                </button>
+                <button class="btn difficulty-btn medium" onclick="game.startGame('medium')">
+                    <span class="level">Medium</span>
+                    <span class="sub">Balanced</span>
+                </button>
+                <button class="btn difficulty-btn hard" onclick="game.startGame('hard')">
+                    <span class="level">Impossible</span>
+                    <span class="sub">Good Luck</span>
+                </button>
+            </div>
+            <button class="btn-back" onclick="game.showScreen('start-screen')">Back</button>
+        </section>
+
+        <!-- Game Screen -->
+        <section id="game-screen" class="screen hidden">
+            <div class="game-header">
+                <div class="turn-indicator" id="turn-indicator">
+                    Player X's Turn
+                </div>
+
+                <button class="btn-small retry" onclick="game.resetGame()">
+                    🔄
+                </button>
+            </div>
+
+            <div class="board" id="board">
+                <div class="cell" data-index="0"></div>
+                <div class="cell" data-index="1"></div>
+                <div class="cell" data-index="2"></div>
+                <div class="cell" data-index="3"></div>
+                <div class="cell" data-index="4"></div>
+                <div class="cell" data-index="5"></div>
+                <div class="cell" data-index="6"></div>
+                <div class="cell" data-index="7"></div>
+                <div class="cell" data-index="8"></div>
+            </div>
+
+            <button class="btn-back sm" onclick="game.showScreen('start-screen')">Main Menu</button>
+        </section>
+    </main>
+
+    <!-- Winner Modal -->
+    <div id="result-modal" class="modal hidden">
+        <div class="modal-content glass-panel">
+            <h2 id="result-message">Player X Wins!</h2>
+            <div class="modal-buttons">
+                <button class="btn primary" onclick="game.resetGame()">Play Again</button>
+                <button class="btn secondary" onclick="game.showScreen('start-screen')">Menu</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="tic-tac-toe.js"></script>
+</body>
+
+</html>
