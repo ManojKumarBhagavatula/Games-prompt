@@ -1,0 +1,417 @@
+:root {
+    --bg-dark: #0a0b14;
+    --glass-bg: rgba(20, 22, 35, 0.7);
+    --glass-border: rgba(255, 255, 255, 0.08);
+    --primary: #6c5ce7;
+    --primary-glow: rgba(108, 92, 231, 0.6);
+    --accent: #00cec9;
+    --accent-glow: rgba(0, 206, 201, 0.6);
+    --success: #00b894;
+    --danger: #ff7675;
+    --text-main: #dfe6e9;
+    --text-muted: #b2bec3;
+    --font-heading: 'Orbitron', sans-serif;
+    --font-body: 'Rajdhani', sans-serif;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background-color: var(--bg-dark);
+    background-image:
+        radial-gradient(circle at 10% 20%, rgba(108, 92, 231, 0.15) 0%, transparent 20%),
+        radial-gradient(circle at 90% 80%, rgba(0, 206, 201, 0.15) 0%, transparent 20%);
+    color: var(--text-main);
+    font-family: var(--font-body);
+    height: 100vh;
+    overflow-x: hidden;
+}
+
+.app-container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 2rem;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Header */
+.main-header {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.main-header h1 {
+    font-family: var(--font-heading);
+    font-size: 3rem;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    text-shadow: 0 0 20px var(--primary-glow);
+}
+
+.highlight {
+    color: var(--accent);
+}
+
+/* Panels */
+.glass-panel {
+    background: var(--glass-bg);
+    backdrop-filter: blur(12px);
+    border: 1px solid var(--glass-border);
+    border-radius: 16px;
+    padding: 2rem;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+}
+
+.view {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+.hidden {
+    display: none !important;
+}
+
+/* Setup View */
+.setup-panel {
+    max-width: 800px;
+    margin: 0 auto;
+    width: 100%;
+}
+
+.input-group {
+    margin-bottom: 1.5rem;
+}
+
+.input-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 700;
+    color: var(--accent);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+textarea,
+input {
+    width: 100%;
+    background: rgba(0, 0, 0, 0.3);
+    border: 1px solid var(--glass-border);
+    color: white;
+    padding: 1rem;
+    border-radius: 8px;
+    font-family: var(--font-body);
+    font-size: 1.1rem;
+    resize: none;
+    transition: all 0.3s ease;
+}
+
+textarea:focus,
+input:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 15px var(--primary-glow);
+}
+
+textarea {
+    min-height: 200px;
+}
+
+.btn {
+    border: none;
+    padding: 0.8rem 2rem;
+    border-radius: 8px;
+    font-family: var(--font-heading);
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.btn.primary {
+    background: var(--primary);
+    color: white;
+    box-shadow: 0 0 20px var(--primary-glow);
+}
+
+.btn.primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 0 30px var(--primary-glow);
+}
+
+.btn.success {
+    background: var(--success);
+    color: white;
+}
+
+.btn.danger {
+    background: var(--danger);
+    color: white;
+}
+
+.btn.huge {
+    width: 100%;
+    padding: 1.5rem;
+    font-size: 1.5rem;
+    margin-top: 2rem;
+}
+
+/* Tags for Captain Selection */
+.tags-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.8rem;
+    margin-top: 1rem;
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+.name-tag {
+    background: rgba(255, 255, 255, 0.05);
+    padding: 0.5rem 1rem;
+    border-radius: 50px;
+    cursor: pointer;
+    border: 1px solid transparent;
+    transition: all 0.2s;
+}
+
+.name-tag:hover {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.name-tag.selected {
+    background: var(--accent);
+    color: black;
+    box-shadow: 0 0 15px var(--accent-glow);
+    font-weight: bold;
+}
+
+/* Auction Arena */
+.spotlight-container {
+    display: flex;
+    gap: 2rem;
+    align-items: stretch;
+    justify-content: center;
+}
+
+.spotlight-card {
+    background: linear-gradient(145deg, rgba(20, 20, 30, 0.9), rgba(10, 10, 15, 0.95));
+    border: 1px solid var(--primary);
+    border-radius: 20px;
+    width: 100%;
+    max-width: 600px;
+    text-align: center;
+    padding: 2rem;
+    box-shadow: 0 0 50px rgba(108, 92, 231, 0.2);
+    position: relative;
+    overflow: hidden;
+}
+
+.spotlight-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 4px;
+    background: linear-gradient(90deg, var(--primary), var(--accent));
+}
+
+.card-header {
+    font-family: var(--font-heading);
+    color: var(--text-muted);
+    font-size: 1.2rem;
+    margin-bottom: 2rem;
+}
+
+.player-name-large {
+    font-size: 3.5rem;
+    /* Larger font size */
+    font-weight: 700;
+    color: white;
+    text-shadow: 0 0 30px rgba(255, 255, 255, 0.3);
+    margin: 2rem 0;
+    min-height: 1.2em;
+    font-family: var(--font-heading);
+}
+
+.status-panel {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    justify-content: center;
+}
+
+.stat-box {
+    background: var(--glass-bg);
+    padding: 1.5rem;
+    border-radius: 12px;
+    text-align: center;
+    min-width: 150px;
+    border: 1px solid var(--glass-border);
+}
+
+.stat-box .label {
+    display: block;
+    color: var(--text-muted);
+    font-size: 0.9rem;
+    margin-bottom: 0.5rem;
+}
+
+.stat-box .value {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--accent);
+    font-family: var(--font-heading);
+}
+
+/* Teams Grid */
+.teams-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    /* Responsive columns */
+    gap: 1.5rem;
+    /* Gap between grid items */
+    margin-top: 2rem;
+}
+
+.team-card {
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    border-radius: 12px;
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.2s;
+    height: 100%;
+    /* Fill the grid cell height */
+}
+
+.team-card.active-bidder {
+    border-color: var(--success);
+    box-shadow: 0 0 20px rgba(0, 184, 148, 0.3);
+}
+
+.team-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.team-name {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--text-main);
+}
+
+.team-points {
+    font-family: var(--font-heading);
+    color: var(--accent);
+    font-weight: 700;
+    font-size: 1.2rem;
+}
+
+.bid-controls {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+    flex-wrap: wrap;
+    /* Allow buttons to wrap */
+}
+
+.bid-btn {
+    flex: 1;
+    padding: 0.5rem;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--glass-border);
+    color: white;
+    border-radius: 4px;
+    cursor: pointer;
+    font-family: var(--font-body);
+    font-weight: 700;
+    transition: all 0.2s;
+    min-width: 40px;
+    /* Minimum width for buttons */
+}
+
+.bid-btn:hover:not(:disabled) {
+    background: var(--primary);
+    border-color: var(--primary);
+}
+
+.bid-btn:disabled {
+    opacity: 0.3;
+    cursor: not-allowed;
+}
+
+.team-roster {
+    flex-grow: 1;
+    /* Allow roster to expand */
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 8px;
+    padding: 0.8rem;
+    font-size: 0.9rem;
+    max-height: 200px;
+    overflow-y: auto;
+}
+
+.roster-item {
+    display: flex;
+    justify-content: space-between;
+    padding: 0.4rem 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.roster-item:last-child {
+    border-bottom: none;
+}
+
+.roster-price {
+    color: var(--success);
+}
+
+/* Animations */
+@keyframes pulse-glow {
+    0% {
+        text-shadow: 0 0 10px var(--accent-glow);
+    }
+
+    50% {
+        text-shadow: 0 0 25px var(--accent-glow), 0 0 10px white;
+    }
+
+    100% {
+        text-shadow: 0 0 10px var(--accent-glow);
+    }
+}
+
+.bid-status {
+    margin-top: 1rem;
+    padding: 1rem;
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 8px;
+    border: 1px solid var(--glass-border);
+}
+
+.bid-amount {
+    font-size: 1.5rem;
+    color: var(--accent);
+    font-weight: 700;
+}
+
+.bid-leader {
+    font-size: 1.1rem;
+    color: var(--success);
+    margin-top: 0.5rem;
+}

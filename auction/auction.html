@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ultimate Game Auction</title>
+    <link rel="stylesheet" href="auction.css">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Rajdhani:wght@300;500;700&display=swap"
+        rel="stylesheet">
+</head>
+
+<body>
+    <div class="app-container">
+        <header class="main-header">
+            <h1>LEGENDS <span class="highlight">AUCTION</span></h1>
+        </header>
+
+        <!-- SETUP PHASE -->
+        <section id="setup-view" class="view active">
+            <div class="glass-panel setup-panel">
+                <h2>Initialize Auction</h2>
+
+                <div class="input-group">
+                    <label for="player-input">Enter Player List (One per line)</label>
+                    <textarea id="player-input" placeholder="Player 1&#10;Player 2&#10;Player 3..."></textarea>
+                </div>
+
+                <div class="controls-row">
+                    <div class="input-group small">
+                        <label for="base-budget">Base Budget</label>
+                        <input type="number" id="base-budget" value="100">
+                    </div>
+                    <button id="process-players-btn" class="btn primary">Process Players</button>
+                </div>
+
+                <div id="captain-selection-area" class="hidden">
+                    <h3>Select Captains</h3>
+                    <p class="subtitle">Click on names to designate them as Captains</p>
+                    <div id="potential-captains-list" class="tags-container"></div>
+                    <button id="start-auction-btn" class="btn success huge">START AUCTION</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- AUCTION PHASE -->
+        <section id="auction-view" class="view hidden">
+
+            <!-- SPOTLIGHT AREA -->
+            <div class="spotlight-container">
+                <div class="card spotlight-card">
+                    <div class="card-header">ON THE BLOCK</div>
+                    <div class="card-body">
+                        <div id="player-display" class="player-name-large">READY</div>
+                        <div id="bid-info" class="bid-status hidden">
+                            <div class="bid-amount">Current Bid: <span id="current-bid">0</span></div>
+                            <div class="bid-leader">Winning: <span id="current-leader">None</span></div>
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <button id="roll-btn" class="btn action">ROLL PLAYER</button>
+
+                        <div id="manual-assign-area" class="input-group row hidden" style="margin: 10px 0; gap: 5px;">
+                            <select id="assign-team-select" style="padding: 5px; flex: 1;"></select>
+                            <button id="force-assign-btn" class="btn warning"
+                                style="font-size: 0.8rem; padding: 5px 10px;">Assign</button>
+                        </div>
+
+                        <button id="sold-btn" class="btn success hidden">SOLD</button>
+                        <button id="unsold-btn" class="btn danger hidden">UNSOLD / PASS</button>
+                    </div>
+                </div>
+
+                <div class="status-panel">
+                    <div class="stat-box">
+                        <span class="label">UNSOLD</span>
+                        <span id="unsold-count" class="value">0</span>
+                    </div>
+                    <div class="stat-box">
+                        <span class="label">REMAINING</span>
+                        <span id="remaining-count" class="value">0</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TEAMS GRID -->
+            <div id="teams-container" class="teams-grid">
+                <!-- Team cards will be injected here -->
+            </div>
+
+        </section>
+    </div>
+    <script src="auction.js"></script>
+</body>
+
+</html>
