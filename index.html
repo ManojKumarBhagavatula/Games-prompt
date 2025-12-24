@@ -6,33 +6,26 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Three Buttons with Equal Spacing</title>
   <style>
-    /* Page baseline */
     :root {
-      --bg: #0f172a;    /* slate-900 */
-      --card: #111827;  /* gray-900 */
-      --text: #e5e7eb;  /* gray-200 */
-      --accent: #2563eb;/* blue-600 */
+      --bg: #0f172a;
+      --card: #111827;
+      --text: #e5e7eb;
+      --accent: #2563eb;
       --accent-hover: #1d4ed8;
       --shadow: 0 10px 25px rgba(0,0,0,0.25);
     }
-
     * { box-sizing: border-box; }
     html, body {
       height: 100%;
       margin: 0;
-      font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+      font-family: system-ui, sans-serif;
       background: radial-gradient(1200px 600px at 70% 0%, #0b1227 0%, var(--bg) 50%, #0a0f1f 100%);
       color: var(--text);
-    }
-
-    /* Layout container */
-    .page {
-      min-height: 100%;
+   100%;
       display: grid;
       place-items: center;
       padding: 24px;
     }
-
     .card {
       width: min(900px, 92vw);
       background: linear-gradient(180deg, var(--card), #0b1324);
@@ -41,37 +34,19 @@
       box-shadow: var(--shadow);
       padding: 28px;
     }
-
-    .title {
-      margin: 0 0 18px;
-      font-weight: 700;
-      letter-spacing: 0.2px;
-      text-align: center;
-    }
-
-    .subtitle {
-      margin: 0 0 26px;
-      opacity: 0.8;
-      text-align: center;
-      font-size: 0.95rem;
-    }
-
-    /* Button row:
-       - space-evenly keeps equal gaps on both sides and between buttons
-       - gap is fallback spacing if space-evenly isn't available */
+    .title { text-align: center; margin-bottom: 18px; font-weight: 700; }
+    .subtitle { text-align: center; margin-bottom: 26px; opacity: 0.8; }
     .button-row {
       display: flex;
-      justify-content: space-evenly; /* equal distance: left gap, between buttons, right gap */
+      justify-content: space-evenly;
       align-items: center;
-      gap: 16px; /* safe fallback spacing */
-      flex-wrap: wrap; /* wraps on small screens */
+      gap: 16px;
+      flex-wrap: wrap;
       padding: 12px;
     }
-
-    /* Button styles */
     .btn {
-      appearance: none;
-      border: 2px solid transparent;
+      display: inline-block;
+      text-decoration: none;
       background: var(--accent);
       color: white;
       font-weight: 600;
@@ -79,40 +54,18 @@
       padding: 12px 22px;
       border-radius: 10px;
       box-shadow: 0 6px 14px rgba(37, 99, 235, 0.35);
-      cursor: pointer;
-      transition:
-        transform 120ms ease,
-        box-shadow 120ms ease,
-        background 140ms ease,
-        border-color 140ms ease;
-      min-width: 160px;   /* keeps visual balance across varying text lengths */
+      transition: background 140ms ease, transform 120ms ease, box-shadow 120ms ease;
+      min-width: 160px;
       text-align: center;
     }
-
     .btn:hover {
       background: var(--accent-hover);
       transform: translateY(-1px);
       box-shadow: 0 10px 20px rgba(37, 99, 235, 0.4);
     }
-
-    .btn:active {
-      transform: translateY(0);
-      box-shadow: 0 6px 14px rgba(37, 99, 235, 0.35);
-    }
-
-    /* Accessible focus outline */
-    .btn:focus-visible {
-      outline: none;
-      border-color: #93c5fd; /* blue-300 */
-      box-shadow: 0 0 0 3px rgba(147, 197, 253, 0.4);
-    }
-
-    /* Small-screen tweaks */
     @media (max-width: 520px) {
       .btn { min-width: 100%; }
-      .button-row {
-        justify-content: center; /* stack and center when wrapping */
-      }
+      .button-row { justify-content: center; }
     }
   </style>
 </head>
@@ -121,11 +74,10 @@
     <section class="card">
       <h1 class="title">Three Buttons</h1>
       <p class="subtitle">Aligned side-by-side with equal distance between them.</p>
-
       <div class="button-row">
-        <button class="btn" href="https://karthikcheeraboyina.github.io/Games-prompt/chess/">Chess</button>
-        <button class="btn" href="https://karthikcheeraboyina.github.io/Games-prompt/tic-tac-toe/">Tic Tac Toe</button>
-        <button class="btn" href="https://karthikcheeraboyina.github.io/Games-prompt/auction/">Auction/button>
+        https://karthikcheeraboyina.github.io/Games-prompt/chess/Chess</a>
+        <a class="btn" href="https://karthikcheeraboyina.github.io/Games-promptToe</a>
+        <a class="btn" href="https://karthikcheeraboyina.githubion/Auction</a>
       </div>
     </section>
   </main>
