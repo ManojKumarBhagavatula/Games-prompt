@@ -4,82 +4,113 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Three Buttons with Equal Spacing</title>
+  <title>🎮 Karthik • Games</title>
   <style>
     :root {
-      --bg: #0f172a;
-      --card: #111827;
-      --text: #e5e7eb;
-      --accent: #2563eb;
+      --bg: #0f172a;       /* page background */
+      --text: #e5e7eb;     /* text color */
+      --accent: #2563eb;   /* primary */
       --accent-hover: #1d4ed8;
-      --shadow: 0 10px 25px rgba(0,0,0,0.25);
+      --nav-height: 56px;  /* nav bar height */
     }
+
     * { box-sizing: border-box; }
     html, body {
       height: 100%;
       margin: 0;
-      font-family: system-ui, sans-serif;
-      background: radial-gradient(1200px 600px at 70% 0%, #0b1227 0%, var(--bg) 50%, #0a0f1f 100%);
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+      background: var(--bg);
       color: var(--text);
-   100%;
-      display: grid;
-      place-items: center;
-      padding: 24px;
     }
-    .card {
-      width: min(900px, 92vw);
-      background: linear-gradient(180deg, var(--card), #0b1324);
-      border: 1px solid rgba(255,255,255,0.06);
-      border-radius: 16px;
-      box-shadow: var(--shadow);
-      padding: 28px;
+
+    /* Fixed top nav */
+    .top-nav {
+      position: fixed; top: 0; left: 0; right: 0; height: var(--nav-height);
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 12px;
+      background: rgba(17, 24, 39, 0.85); /* semi-transparent gray-900 */
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+      z-index: 10;
     }
-    .title { text-align: center; margin-bottom: 18px; font-weight: 700; }
-    .subtitle { text-align: center; margin-bottom: 26px; opacity: 0.8; }
-    .button-row {
-      display: flex;
-      justify-content: space-evenly;
-      align-items: center;
-      gap: 16px;
-      flex-wrap: wrap;
-      padding: 12px;
-    }
-    .btn {
+    .brand { font-weight: 700; letter-spacing: 0.2px; }
+    .nav-links { display: flex; gap: 8px; }
+    .nav-links a {
       display: inline-block;
+      padding: 8px 12px;
+      border-radius: 8px;
       text-decoration: none;
+      color: var(--text);
+      border: 1px solid transparent;
+    }
+    .nav-links a:hover {
+      background: rgba(37, 99, 235, 0.15);
+      border-color: rgba(37, 99, 235, 0.35);
+    }
+    .nav-links a.active {
       background: var(--accent);
-      color: white;
-      font-weight: 600;
-      font-size: 1rem;
-      padding: 12px 22px;
-      border-radius: 10px;
-      box-shadow: 0 6px 14px rgba(37, 99, 235, 0.35);
-      transition: background 140ms ease, transform 120ms ease, box-shadow 120ms ease;
-      min-width: 160px;
-      text-align: center;
+      border-color: var(--accent);
+      color: #fff;
     }
-    .btn:hover {
-      background: var(--accent-hover);
-      transform: translateY(-1px);
-      box-shadow: 0 10px 20px rgba(37, 99, 235, 0.4);
+
+    /* Content area, iframe fills remaining viewport */
+    .content {
+      margin-top: var(--nav-height);
+      height: calc(100vh - var(--nav-height));
     }
-    @media (max-width: 520px) {
-      .btn { min-width: 100%; }
-      .button-row { justify-content: center; }
+    iframe#gameFrame {
+      width: 100%;
+      height: 100%;
+      border: 0;
+      background: #0b1324;
     }
   </style>
 </head>
 <body>
-  <main class="page">
-    <section class="card">
-      <h1 class="title">Three Buttons</h1>
-      <p class="subtitle">Aligned side-by-side with equal distance between them.</p>
-      <div class="button-row">
-        <a class="btn" href="https://karthikcheeraboyina.github.io/Games-prompt/chess/" Chess</a>
-        <a class="btn" href="https://karthikcheeraboyina.github.io/Games-prompt/tic-tac-toe/" Tic Tac Toe</a>
-        <a class="btn" href="https://karthikcheeraboyina.githubion/auction" Auction</a>
-      </div>
-    </section>
+  <!-- Persistent nav -->
+  <nav class="top-nav">
+    <div class="brand">🎮 Karthik • Games</div>
+    <div class="nav-links">
+      #chessChess</a>
+      #tic-tac-toeTic&nbsp;Tac&nbsp;Toe</a>
+      #auctionAuction</a>
+    </div>
+  </nav>
+
+  <!-- Game area -->
+  <main class="content">
+    <iframe id="gameFrame" title="Game"></iframe>
   </main>
+
+  <script>
+    // Map hash -> folder path (relative to repo root)
+    const routes = {
+      'chess': './chess/',
+      'tic-tac-toe': './tic-tac-toe/',
+      'auction': './auction/'
+    };
+
+    function setActive(hash) {
+      document.querySelectorAll('.nav-links a').forEach(a => a.classList.remove('active'));
+      const id = hash === 'tic-tac-toe' ? 'link-ttt'
+                : hash === 'auction' ? 'link-auction'
+                : 'link-chess';
+      const el = document.getElementById(id);
+      if (el) el.classList.add('active');
+    }
+
+    function loadFromHash() {
+      let hash = window.location.hash.replace('#', '');
+      if (!hash || !(hash in routes)) {
+        hash = 'chess'; // default selection
+        history.replaceState(null, '', '#'+hash);
+      }
+      document.getElementById('gameFrame').src = routes[hash];
+      setActive(hash);
+    }
+
+    window.addEventListener('hashchange', loadFromHash);
+    window.addEventListener('DOMContentLoaded', loadFromHash);
+  </script>
 </body>
 </html>
