@@ -1,4 +1,3 @@
-
 // Constants
 const PIECES = {
     w: { k: '♔', q: '♕', r: '♖', b: '♗', n: '♘', p: '♙' },
@@ -302,41 +301,120 @@ class ChessGame {
 
     evaluateBoard(board) {
         let score = 0;
+        let whiteMobility = 0, blackMobility = 0;
+        let whitePawnStructure = 0, blackPawnStructure = 0;
+        let whiteKingSafety = 0, blackKingSafety = 0;
+        // Central squares for positional bonus
+        const centralSquares = [
+            [3, 3], [3, 4], [4, 3], [4, 4]
+        ];
         for (let r = 0; r < 8; r++) {
             for (let c = 0; c < 8; c++) {
                 const piece = board[r][c];
                 if (piece) {
                     const value = PIECE_VALUES[piece.type];
-                    score += piece.color === 'w' ? value : -value; // White +ve, Black -ve
+                    // Material
+                    score += piece.color === 'w' ? value : -value;
+                    // Central control
+                    if (centralSquares.some(([cr, cc]) => cr === r && cc === c)) {
+                        score += piece.color === 'w' ? 5 : -5;
+                    }
+                    // Mobility
+                    const moves = this.getPseudoMoves(board, r, c).length;
+                    if (piece.color === 'w') whiteMobility += moves;
+                    else blackMobility += moves;
+                    // Pawn structure
+                    if (piece.type === 'p') {
+                        // Isolated pawn penalty
+                        let isolated = true;
+                        for (let dc of [-1, 1]) {
+                            if (c + dc >= 0 && c + dc < 8 && board[r][c + dc] && board[r][c + dc].type === 'p' && board[r][c + dc].color === piece.color) {
+                                isolated = false;
+                                break;
+                            }
+                        }
+                        if (isolated) {
+                            if (piece.color === 'w') whitePawnStructure -= 5;
+                            else blackPawnStructure += 5;
+                        }
+                        // Doubled pawn penalty
+                        let doubled = false;
+                        for (let rr = 0; rr < 8; rr++) {
+                            if (rr !== r && board[rr][c] && board[rr][c].type === 'p' && board[rr][c].color === piece.color) {
+                                doubled = true;
+                                break;
+                            }
+                        }
+                        if (doubled) {
+                            if (piece.color === 'w') whitePawnStructure -= 3;
+                            else blackPawnStructure += 3;
+                        }
+                    }
+                    // King safety (simple: penalize exposed king)
+                    if (piece.type === 'k') {
+                        let safe = true;
+                        for (let dr = -1; dr <= 1; dr++) {
+                            for (let dc = -1; dc <= 1; dc++) {
+                                if (dr === 0 && dc === 0) continue;
+                                const nr = r + dr, nc = c + dc;
+                                if (nr >= 0 && nr < 8 && nc >= 0 && nc < 8) {
+                                    if (board[nr][nc] && board[nr][nc].color !== piece.color) {
+                                        safe = false;
+                                    }
+                                }
+                            }
+                        }
+                        if (!safe) {
+                            if (piece.color === 'w') whiteKingSafety -= 10;
+                            else blackKingSafety += 10;
+                        }
+                    }
                 }
             }
         }
+        // Add mobility and pawn structure bonuses
+        score += (whiteMobility - blackMobility) * 0.5;
+        score += (whitePawnStructure - blackPawnStructure);
+        score += (whiteKingSafety - blackKingSafety);
         return score; // Positive for White advantage
+    }
+
+    // Move ordering: prioritize captures and checks
+    orderMoves(board, moves, color) {
+        return moves.sort((a, b) => {
+            const pieceA = board[a.r][a.c];
+            const pieceB = board[b.r][b.c];
+            // Captures first
+            const captureA = board[a.r][a.c] && board[a.r][a.c].color !== color;
+            const captureB = board[b.r][b.c] && board[b.r][b.c].color !== color;
+            if (captureA && !captureB) return -1;
+            if (!captureA && captureB) return 1;
+            // Checks next
+            const simBoardA = this.cloneBoard(board);
+            this.applyMove(simBoardA, a);
+            const simBoardB = this.cloneBoard(board);
+            this.applyMove(simBoardB, b);
+            const checkA = this.isKingInCheck(simBoardA, color === 'w' ? 'b' : 'w');
+            const checkB = this.isKingInCheck(simBoardB, color === 'w' ? 'b' : 'w');
+            if (checkA && !checkB) return -1;
+            if (!checkA && checkB) return 1;
+            return 0;
+        });
     }
 
     minimax(board, depth, alpha, beta, isMaximizing) {
         if (depth === 0) {
             return this.evaluateBoard(board);
         }
-
         const color = isMaximizing ? 'w' : 'b';
-        // Need all moves for the current board state (simulated)
-        // Since getSafeMoves relies on `this.board`, we need a static way or bind context
-        // But for simplicity, we'll re-implement simple safe moves generation for the board passed
-
-        // Simplified: using pseudo moves and filtering for check
-        // Optimizing: Just getting pseudo moves for now to speed up traversal, 
-        // strictly checking check might be too slow for JS without optimization
-        // Let's stick to safe moves.
-        const moves = this.getAllSafeMovesForBoard(board, color);
-
+        let moves = this.getAllSafeMovesForBoard(board, color);
+        moves = this.orderMoves(board, moves, color);
         if (moves.length === 0) {
             if (this.isKingInCheck(board, color)) {
                 return isMaximizing ? -10000 : 10000; // Checkmate
             }
             return 0; // Stalemate
         }
-
         if (isMaximizing) {
             let maxEval = -Infinity;
             for (const move of moves) {
