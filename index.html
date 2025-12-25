@@ -140,7 +140,7 @@
       let id = '';
       if (hash === 'tic-tac-toe') id = 'link-ttt';
       else if (hash === 'auction') id = 'link-auction';
-      else if (hash === 'flappybird') id = 'link-bird';
+      else if (hash === 'flappy-bird') id = 'link-bird';
       else if (hash === 'chess') id = 'link-chess';
       else id = 'link-home';
       const el = document.getElementById(id);
@@ -151,9 +151,7 @@
       const nav = document.getElementById('mainNav');
       if (!hash || hash === 'home' || !(hash in routes)) {
         nav.classList.add('home-bg');
-      } else {
-        nav.classList.remove('home-bg');
-      }
+      } 
     }
 
     function loadFromHash() {
