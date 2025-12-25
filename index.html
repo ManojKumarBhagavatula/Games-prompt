@@ -6,13 +6,12 @@
   <title>🎮 Fun Zone</title>
   <style>
     :root {
-      --bg: #0f172a;       /* page background */
-      --text: #e5e7eb;     /* text color */
-      --accent: #2563eb;   /* primary */
+      --bg: #0f172a;
+      --text: #e5e7eb;
+      --accent: #2563eb;
       --accent-hover: #1d4ed8;
-      --nav-height: 56px;  /* nav bar height */
+      --nav-height: 56px;
     }
-
     * { box-sizing: border-box; }
     html, body {
       height: 100%;
@@ -21,16 +20,27 @@
       background: var(--bg);
       color: var(--text);
     }
-
-    /* Fixed top nav */
     .top-nav {
       position: fixed; top: 0; left: 0; right: 0; height: var(--nav-height);
       display: flex; align-items: center; justify-content: space-between;
       padding: 0 12px;
-      background: rgba(17, 24, 39, 0.85); /* semi-transparent gray-900 */
+      background: rgba(17, 24, 39, 0.85);
       backdrop-filter: blur(8px);
       border-bottom: 1px solid rgba(255,255,255,0.08);
       z-index: 10;
+      transition: background 0.3s;
+    }
+    .top-nav.home-bg {
+      background: #fffafa !important;
+      border-bottom: 1px solid #eee;
+    }
+    .top-nav .brand,
+    .top-nav .nav-links a {
+      transition: color 0.3s;
+    }
+    .top-nav.home-bg .brand,
+    .top-nav.home-bg .nav-links a {
+      color: #000000 !important;
     }
     .brand { font-weight: 700; letter-spacing: 0.2px; }
     .nav-links { display: flex; gap: 8px; }
@@ -41,6 +51,7 @@
       text-decoration: none;
       color: var(--text);
       border: 1px solid transparent;
+      font-size: 1rem;
     }
     .nav-links a:hover {
       background: rgba(37, 99, 235, 0.15);
@@ -52,7 +63,32 @@
       color: #fff;
     }
 
-    /* Content area, iframe fills remaining viewport */
+    /* Responsive nav bar for mobile */
+    @media (max-width: 600px) {
+      .top-nav {
+        flex-direction: column;
+        align-items: flex-start;
+        height: auto;
+        padding: 8px 4px;
+      }
+      .brand {
+        font-size: 1.2rem;
+        margin-bottom: 6px;
+        margin-top: 2px;
+      }
+      .nav-links {
+        width: 100%;
+        justify-content: flex-start;
+        gap: 4px;
+        flex-wrap: wrap;
+      }
+      .nav-links a {
+        font-size: 0.95rem;
+        padding: 8px 8px;
+        margin-bottom: 2px;
+      }
+    }
+
     .content {
       margin-top: var(--nav-height);
       height: calc(100vh - var(--nav-height));
@@ -67,7 +103,7 @@
 </head>
 <body>
   <!-- Persistent nav -->
-  <nav class="top-nav">
+  <nav class="top-nav" id="mainNav">
     <a class="brand" href="https://karthikcheeraboyina.github.io/Games-prompt/">🎮 Fun Zone</a>
     <div class="nav-links">
       <a href="#home" id="link-home">Home</a>
@@ -108,10 +144,20 @@
       if (el) el.classList.add('active');
     }
 
+    function setNavBarBg(hash) {
+      const nav = document.getElementById('mainNav');
+      if (!hash || hash === 'home' || !(hash in routes)) {
+        nav.classList.add('home-bg');
+      } else {
+        nav.classList.remove('home-bg');
+      }
+    }
+
     function loadFromHash() {
       let hash = window.location.hash.replace('#', '');
       const welcome = document.getElementById('welcome-message');
       const frame = document.getElementById('gameFrame');
+      setNavBarBg(hash);
       if (!hash || hash === 'home' || !(hash in routes)) {
         // Show welcome message, hide iframe
         welcome.style.display = 'flex';
