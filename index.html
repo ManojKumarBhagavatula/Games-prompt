@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -69,17 +68,21 @@
 <body>
   <!-- Persistent nav -->
   <nav class="top-nav">
-    <div class="brand">🎮 Fun Zone</div>
+    <div class="brand" href="https://karthikcheeraboyina.github.io/Games-prompt/">🎮 Fun Zone</div>
     <div class="nav-links">
-      #chessChess</a>
-      #tic-tac-toeTic&nbsp;Tac&nbsp;Toe</a>
-      #auctionAuction</a>
+      <a href="#home" id="link-home">Home</a>
+      <a href="#chess" id="link-chess">Chess</a>
+      <a href="#tic-tac-toe" id="link-ttt">Tic Tac Toe</a>
+      <a href="#auction" id="link-auction">Auction</a>
     </div>
   </nav>
 
   <!-- Game area -->
   <main class="content">
-    <iframe id="gameFrame" title="Game"></iframe>
+    <div id="welcome-message" style="display: flex; align-items: center; justify-content: center; height: 100%; font-size: 1.5rem;">
+      This is made for fun and playing.
+    </div>
+    <iframe id="gameFrame" title="Game" style="display:none;"></iframe>
   </main>
 
   <script>
@@ -92,20 +95,30 @@
 
     function setActive(hash) {
       document.querySelectorAll('.nav-links a').forEach(a => a.classList.remove('active'));
-      const id = hash === 'tic-tac-toe' ? 'link-ttt'
-                : hash === 'auction' ? 'link-auction'
-                : 'link-chess';
+      let id = '';
+      if (hash === 'tic-tac-toe') id = 'link-ttt';
+      else if (hash === 'auction') id = 'link-auction';
+      else if (hash === 'chess') id = 'link-chess';
+      else id = 'link-home';
       const el = document.getElementById(id);
       if (el) el.classList.add('active');
     }
 
     function loadFromHash() {
       let hash = window.location.hash.replace('#', '');
-      if (!hash || !(hash in routes)) {
-        hash = 'chess'; // default selection
-        history.replaceState(null, '', '#'+hash);
+      const welcome = document.getElementById('welcome-message');
+      const frame = document.getElementById('gameFrame');
+      if (!hash || hash === 'home' || !(hash in routes)) {
+        // Show welcome message, hide iframe
+        welcome.style.display = 'flex';
+        frame.style.display = 'none';
+        setActive(hash);
+        return;
       }
-      document.getElementById('gameFrame').src = routes[hash];
+      // Show iframe, hide welcome message
+      frame.src = routes[hash];
+      frame.style.display = 'block';
+      welcome.style.display = 'none';
       setActive(hash);
     }
 
