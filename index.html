@@ -1,0 +1,116 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>🎮 Karthik • Games</title>
+  <style>
+    :root {
+      --bg: #0f172a;       /* page background */
+      --text: #e5e7eb;     /* text color */
+      --accent: #2563eb;   /* primary */
+      --accent-hover: #1d4ed8;
+      --nav-height: 56px;  /* nav bar height */
+    }
+
+    * { box-sizing: border-box; }
+    html, body {
+      height: 100%;
+      margin: 0;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+    }
+
+    /* Fixed top nav */
+    .top-nav {
+      position: fixed; top: 0; left: 0; right: 0; height: var(--nav-height);
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 12px;
+      background: rgba(17, 24, 39, 0.85); /* semi-transparent gray-900 */
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+      z-index: 10;
+    }
+    .brand { font-weight: 700; letter-spacing: 0.2px; }
+    .nav-links { display: flex; gap: 8px; }
+    .nav-links a {
+      display: inline-block;
+      padding: 8px 12px;
+      border-radius: 8px;
+      text-decoration: none;
+      color: var(--text);
+      border: 1px solid transparent;
+    }
+    .nav-links a:hover {
+      background: rgba(37, 99, 235, 0.15);
+      border-color: rgba(37, 99, 235, 0.35);
+    }
+    .nav-links a.active {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: #fff;
+    }
+
+    /* Content area, iframe fills remaining viewport */
+    .content {
+      margin-top: var(--nav-height);
+      height: calc(100vh - var(--nav-height));
+    }
+    iframe#gameFrame {
+      width: 100%;
+      height: 100%;
+      border: 0;
+      background: #0b1324;
+    }
+  </style>
+</head>
+<body>
+  <!-- Persistent nav -->
+  <nav class="top-nav">
+    <div class="brand">🎮 Karthik • Games</div>
+    <div class="nav-links">
+      #chessChess</a>
+      #tic-tac-toeTic&nbsp;Tac&nbsp;Toe</a>
+      #auctionAuction</a>
+    </div>
+  </nav>
+
+  <!-- Game area -->
+  <main class="content">
+    <iframe id="gameFrame" title="Game"></iframe>
+  </main>
+
+  <script>
+    // Map hash -> folder path (relative to repo root)
+    const routes = {
+      'chess': './chess/',
+      'tic-tac-toe': './tic-tac-toe/',
+      'auction': './auction/'
+    };
+
+    function setActive(hash) {
+      document.querySelectorAll('.nav-links a').forEach(a => a.classList.remove('active'));
+      const id = hash === 'tic-tac-toe' ? 'link-ttt'
+                : hash === 'auction' ? 'link-auction'
+                : 'link-chess';
+      const el = document.getElementById(id);
+      if (el) el.classList.add('active');
+    }
+
+    function loadFromHash() {
+      let hash = window.location.hash.replace('#', '');
+      if (!hash || !(hash in routes)) {
+        hash = 'chess'; // default selection
+        history.replaceState(null, '', '#'+hash);
+      }
+      document.getElementById('gameFrame').src = routes[hash];
+      setActive(hash);
+    }
+
+    window.addEventListener('hashchange', loadFromHash);
+    window.addEventListener('DOMContentLoaded', loadFromHash);
+  </script>
+</body>
+</html>
