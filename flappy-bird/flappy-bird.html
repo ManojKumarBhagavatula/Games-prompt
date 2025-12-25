@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flappy Bird Clone</title>
+    <link rel="stylesheet" href="flappy-bird.css">
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+</head>
+
+<body>
+
+    <!-- Main Menu -->
+    <div id="mainMenu" class="screen">
+        <h1>Flappy Bird</h1>
+        <div class="menu-buttons">
+            <button id="btnSingle">Single Player</button>
+            <button id="btnMulti">Multiplayer (P1 vs P2)</button>
+        </div>
+        <p class="controls-hint">P1: Space | P2: Enter</p>
+    </div>
+
+    <!-- Game Container -->
+    <div id="gameArea" class="hidden">
+
+        <!-- Single Player Mode -->
+        <div id="singleMode" class="mode-container hidden">
+            <canvas id="canvasSingle" width="800" height="450"></canvas>
+            <div id="uiSingle" class="game-ui">
+                <span id="scoreSingle">0</span>
+            </div>
+            <div id="gameOverSingle" class="screen hidden overlay">
+                <h1>Game Over</h1>
+                <p>Score: <span id="finalScoreSingle">0</span></p>
+                <button onclick="location.reload()">Menu</button>
+            </div>
+        </div>
+
+        <!-- Multiplayer Mode -->
+        <div id="multiMode" class="mode-container hidden">
+            <div class="split-view">
+                <div class="player-view">
+                    <canvas id="canvasP1" width="400" height="450"></canvas>
+                    <div class="player-label">P1 (Space)</div>
+                    <div class="mini-score"><span id="scoreP1">0</span></div>
+                </div>
+                <div class="divider"></div>
+                <div class="player-view">
+                    <canvas id="canvasP2" width="400" height="450"></canvas>
+                    <div class="player-label">P2 (Enter)</div>
+                    <div class="mini-score"><span id="scoreP2">0</span></div>
+                </div>
+            </div>
+
+            <div id="gameOverMulti" class="screen hidden overlay">
+                <h1>Game Over</h1>
+                <h2 id="winnerText">Player 1 Wins!</h2>
+                <div class="score-comparison">
+                    <p>P1: <span id="finalScoreP1">0</span></p>
+                    <p>P2: <span id="finalScoreP2">0</span></p>
+                </div>
+                <button onclick="location.reload()">Menu</button>
+            </div>
+        </div>
+
+    </div>
+
+    <script src="flappy-bird.js"></script>
+</body>
+
+</html>
