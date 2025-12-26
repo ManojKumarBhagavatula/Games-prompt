@@ -52,9 +52,10 @@
       color: #000000 !important;
     }
     .brand {
-      font-weight: 700; letter-spacing: 0.2px; font-size: 1.6rem;
-      text-decoration: underline wavy #2563eb 2px;
-      text-underline-offset: 4px;
+      font-weight: 700;
+      letter-spacing: 0.2px;
+      font-size: 1.6rem;
+      text-decoration: none;
     }
     .brand:hover, .brand:focus { text-decoration-color: #000; }
     .nav-links { display: flex; gap: 8px; }
@@ -111,7 +112,7 @@
         background: #fff;
         flex-direction: column;
         gap: 0;
-        border-bottom: 2px solid #000;
+        border-bottom: none;
         box-shadow: 0 8px 24px rgba(0,0,0,0.08);
       }
       .nav-links.open { display: flex; }
@@ -119,21 +120,25 @@
         color: #000;
         background: transparent;
         border: none;
-        border-bottom: 1px solid #000;
-        border-radius: 0;
+        border-radius: 8px;
+        border-bottom: none;
         padding: 14px 18px;
         font-size: 1.1rem;
+        margin: 4px 8px;
+        transition: background 0.2s, color 0.2s;
       }
       .nav-links a:last-child { border-bottom: none; }
       .nav-links a:hover {
         background: #ededed;
         color: #000;
         border: none;
+        border-radius: 8px;
       }
       .nav-links a.active {
         background: transparent;
         border: 2px solid #000;
         color: #000;
+        border-radius: 8px;
       }
     }
 
@@ -147,16 +152,88 @@
       border: 0;
       background: #0b1324;
     }
+    .game-cards-welcome {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100%;
+      text-align: center;
+      background: linear-gradient(120deg, #232946 0%, #0f172a 100%);
+      border-radius: 18px;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.18);
+      padding: 2.5rem 1rem 1rem 1rem;
+      animation: fadeIn 1.2s;
+    }
+    .game-cards-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 2rem;
+      width: 100%;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+    .game-card {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      background: #fff;
+      color: #232946;
+      border-radius: 18px;
+      box-shadow: 0 4px 24px rgba(37,99,235,0.10), 0 1.5px 8px rgba(0,0,0,0.08);
+      padding: 1.1rem 0.6rem 0.6rem 0.6rem;
+      text-decoration: none;
+      transition: transform 0.18s, box-shadow 0.18s;
+      border: 2px solid transparent;
+      position: relative;
+      min-height: 120px;
+      font-size: 0.95rem;
+    }
+    .game-card:hover, .game-card:focus {
+      transform: translateY(-8px) scale(1.04);
+      box-shadow: 0 8px 32px rgba(37,99,235,0.18), 0 2px 12px rgba(0,0,0,0.10);
+      border: 2px solid var(--accent);
+      z-index: 2;
+    }
+    .game-icon {
+      font-size: 1.5rem;
+      margin-bottom: 0.7rem;
+      filter: drop-shadow(0 2px 8px #2563eb33);
+    }
+    .game-title {
+      font-size: 1.05rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+      letter-spacing: 1px;
+      color: var(--accent-hover);
+    }
+    .game-desc {
+      font-size: 1rem;
+      color: #232946cc;
+      margin-bottom: 0.2rem;
+    }
+    @media (max-width: 700px) {
+      .game-cards-grid { gap: 0.7rem; }
+      .game-card { padding: 0.7rem 0.3rem; min-height: 90px; }
+      .game-icon { font-size: 1.1rem; }
+    }
+    @media (max-width: 500px) {
+      .game-cards-grid { grid-template-columns: 1fr; }
+      .game-cards-welcome { padding: 1.2rem 0.2rem; }
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: none; }
+    }
   </style>
 </head>
 
 <body>
   <!-- Persistent nav -->
   <nav class="top-nav" id="mainNav">
-    <a class="brand" href="https://karthikcheeraboyina.github.io/FunZone/">🎮 Fun Zone</a>
+    <a class="brand" href="#home">🎮 Fun Zone</a>
     <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation">☰</button>
     <div class="nav-links" id="navLinks">
-      <a href="#home" id="link-home">Home</a>
       <a href="#chess" id="link-chess">Chess</a>
       <a href="#tic-tac-toe" id="link-ttt">Tic Tac Toe</a>
       <a href="#flappy-bird" id="link-bird">Flappy Bird</a>
@@ -166,8 +243,31 @@
 
   <!-- Game area -->
   <main class="content">
-    <div id="welcome-message" style="display: flex; align-items: center; justify-content: center; height: 100%; font-size: 1.5rem; background: #fffafa; color: #000000;">
-      This is made for fun and playing.
+    <div id="welcome-message" class="game-cards-welcome">
+      <h1 style="font-size:2.2rem; margin-bottom: 1.5rem; color: var(--accent); font-family: 'Orbitron', system-ui, sans-serif; letter-spacing: 2px;">Welcome to Fun Zone!</h1>
+      <p style="font-size:1.2rem; color:var(--text); margin-bottom:2.5rem;">Choose a game below and start playing instantly!</p>
+      <div class="game-cards-grid">
+        <a href="#chess" class="game-card">
+          <div class="game-icon">♟️</div>
+          <div class="game-title">Chess</div>
+          <div class="game-desc">Classic strategy game for two players.</div>
+        </a>
+        <a href="#tic-tac-toe" class="game-card">
+          <div class="game-icon">❌⭕</div>
+          <div class="game-title">Tic Tac Toe</div>
+          <div class="game-desc">Quick and fun 3x3 grid challenge.</div>
+        </a>
+        <a href="#flappy-bird" class="game-card">
+          <div class="game-icon">🐦</div>
+          <div class="game-title">Flappy Bird</div>
+          <div class="game-desc">Test your reflexes in this flying game.</div>
+        </a>
+        <a href="#auction" class="game-card">
+          <div class="game-icon">🏆</div>
+          <div class="game-title">Auction</div>
+          <div class="game-desc">Bid and build your dream team!</div>
+        </a>
+      </div>
     </div>
     <iframe id="gameFrame" title="Game" style="display:none;"></iframe>
   </main>
