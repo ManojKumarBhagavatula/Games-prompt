@@ -17,6 +17,23 @@
     <link rel="stylesheet" href="chess.css">
     <!-- Google Fonts for premium look -->
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        @media (max-width: 700px) {
+            .game-area {
+                display: flex;
+                flex-direction: column;
+            }
+            .controls-panel {
+                order: 1;
+                width: 100%;
+                margin-bottom: 1.2rem;
+            }
+            .board-container {
+                order: 2;
+                width: 100%;
+            }
+        }
+    </style>
 </head>
 
 <body>
