@@ -52,18 +52,11 @@ h1 {
     text-shadow: 4px 4px 0 #000;
 }
 
-.menu-buttons button {
-    display: block;
-    width: 300px;
-    margin: 15px auto;
-    font-size: 18px;
-    padding: 15px;
-}
-
-.controls-hint {
-    margin-top: 40px;
-    font-size: 12px;
-    color: #aaa;
+/* Requirement 1: Stack buttons vertically */
+.menu-buttons {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 /* Game Area */
@@ -79,8 +72,6 @@ h1 {
 .mode-container {
     position: relative;
     box-shadow: 0 0 50px rgba(0, 0, 0, 0.5);
-    background: transparent;
-    /* Changed from default/inherited */
 }
 
 canvas {
@@ -88,7 +79,6 @@ canvas {
     display: block;
 }
 
-/* Single Player Styles */
 #singleMode canvas {
     border: 4px solid #fff;
     width: 800px;
@@ -109,40 +99,44 @@ canvas {
     text-shadow: 2px 2px 0 #000;
 }
 
+.high-score-ui {
+    position: absolute;
+    top: 10px;
+    right: 20px;
+    font-size: 14px;
+    color: #fff;
+    text-shadow: 2px 2px 0 #000;
+}
+
+#gameOverSingle p {
+    margin: 10px 0;
+    font-size: 18px;
+}
+
 /* Multiplayer Styles */
 .split-view {
     display: flex;
-    justify-content: center;
-    width: auto;
-    height: auto;
-    background: transparent;
     gap: 40px;
-    /* Space between windows */
-    border: none;
 }
 
 .player-view {
     position: relative;
     width: 400px;
     height: 450px;
-    overflow: hidden;
     border: 4px solid #fff;
-    /* Individual borders */
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+    overflow: hidden;
 }
 
-.divider {
-    display: none;
-    /* Hide old divider */
-}
-
+/* Requirement 4: Position on the sand (ground is 112px high) */
 .player-label {
     position: absolute;
-    bottom: 10px;
-    left: 10px;
-    font-size: 10px;
-    color: rgba(255, 255, 255, 0.7);
-    text-shadow: 1px 1px 0 #000;
+    bottom: 60px; 
+    width: 100%;
+    text-align: center;
+    font-size: 12px;
+    color: #555; /* Dark color for visibility on sand */
+    z-index: 15;
+    font-weight: bold;
 }
 
 .mini-score {
@@ -152,31 +146,23 @@ canvas {
     text-align: center;
     font-size: 30px;
     text-shadow: 2px 2px 0 #000;
-    pointer-events: none;
 }
 
-/* General Button */
+/* Buttons */
 button {
     background: #e04a3f;
     border: 4px solid #fff;
     color: white;
-    padding: 10px 20px;
+    padding: 15px 30px;
     font-family: inherit;
     font-size: 14px;
     cursor: pointer;
     text-transform: uppercase;
     box-shadow: 0 4px 0 #9e2d26;
-    transition: transform 0.1s, box-shadow 0.1s;
+    margin: 10px;
 }
 
 button:active {
     transform: translateY(4px);
-    box-shadow: 0 0 0 #9e2d26;
-}
-
-/* Winner Text */
-#winnerText {
-    color: #73bf2e;
-    font-size: 24px;
-    margin-bottom: 20px;
+    box-shadow: none;
 }
